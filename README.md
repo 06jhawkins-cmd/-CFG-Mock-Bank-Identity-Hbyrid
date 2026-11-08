@@ -25,3 +25,30 @@
 ![Overcoming Broken System Memory Links to Finish the Agent Installation](friday_1_installation_success.png)
 
 ---
+#  CFG HYBRID CLOUD IDENTITY INFRASTRUCTURE REPOSITORY
+
+---
+
+##  WEEKEND 1 MIGRATION MILESTONE: OKTA CLOUD DIRECTORY FEDERATION
+**Current Milestone Date:** Saturday, November 7, 2026  
+**Active Project Objective:** Project #1 — Setting up the Hybrid Cloud Ingestion Bridge. This phase focuses on mapping organizational boundaries inside the cloud directory and running a pre-sync pipeline audit.
+
+---
+
+##  Phase 2 Architecture: Organizational Unit (OU) & Pre-Sync Data Audits
+
+###  1. Why I Set Up Folder Filtering Before Synchronization
+* **The Messy Data Problem:** By default, an Active Directory database is packed with hundreds of built-in computer background files and system service accounts. If I sync the whole server blindly, these junk system profiles will clutter my cloud dashboard and break compliance tracking.
+* **The Filtering Solution:** I logged into my Okta Cloud Admin console and configured directory boundaries. I unchecked all default system containers and locked my configuration down to look **only** at my custom **bank_staff** folder drawer. This ensures my cloud registry remains completely clean and restricted to real human bank employees.
+
+###  2. The Step-by-Step Security Fix
+* **Step 1: Constraining Cloud Directory Scope:** I mapped my user and group sync rules inside the Okta Admin setup wizard, checking only the parent **bank_staff** directory and its operational department sub-drawers. I left default folders like `computers` and `Domain Controllers` completely unchecked.
+* **Step 2: Confirming Live Agent Health:** I navigated to the **Agent Monitors** dashboard inside my Okta console. The panel verified a clean **Operational** status with a green checkbox, proving my outbound server tunnel is actively running version 3.23.0 in the background.
+* **Step 3: Engineering a Defensive Pre-Check Tool:** I wrote an automated infrastructure audit script inside my PowerShell workspace. I wrapped the code in a defensive **try/catch** trap to ensure any unexpected active directory connection errors would get caught safely before execution.
+* **Step 4: Calculating the On-Premises Launchpad Baseline:** I ran the completed validation tool. The script scanned my database folders from the top down and recorded an exact user baseline score: **3,002 identity cards are completely primed for cloud sync**.
+
+![Successful Execution of the Defensive Pre-Sync Group Ingestion Audit Tool](saturday_1_presync_audit.png)
+
+![Verifying Live Agent Synchronization Status Inside the Okta Dashboard](saturday_2_agent_operational.png)
+
+---
