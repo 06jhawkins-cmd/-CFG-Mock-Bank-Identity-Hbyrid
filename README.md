@@ -76,3 +76,25 @@
 ![Successful Staging of the Mass Bank Employee Roster Inside Okta Cloud Console](sunday_2_cloud_import_success.png)
 
 ---
+
+
+ WEEKEND 2 MILESTONE: HYBRID ZERO TRUST & CONDITIONAL ACCESS MFA
+**Current Milestone Date:** Friday, November 13, 2026  
+**Active Project Objective:** Project #2 — Locking down synced hybrid users with role-based Zero Trust authentication policies and phishing-resistant Multi-Factor Authentication (MFA).
+
+---
+
+##  Phase 1 Architecture: Group Sync Resolution & App Sign-In Policy Enforcement
+
+###  1. Why I Needed Role-Based App Sign-In Policies
+* **The Security Problem:** Simply syncing users to the cloud isn't enough. If a hacker phishes a bank teller's password, they shouldn't be able to walk straight into sensitive banking applications. At the same time, forcing heavy security prompts on every low-risk app ruins the Single Sign-On (SSO) experience.
+* **The Zero Trust Solution:** I built a targeted **App Sign-In Policy** in Okta (`Zero Trust - Bank Teller Perimeter`) that evaluates sessions top-to-bottom. By scoping a priority rule specifically to **`SG-Teller-Team`**, Okta enforces **Step-Up Authentication** (requiring a password plus a phishing-resistant possession factor like **Okta Verify FastPass**) only when tellers access protected apps, while keeping low-risk SSO sessions frictionless.
+
+###  2. The Step-by-Step Security Fix
+* **Step 1: Resolving Staged User Group Mappings:** After last weekend's import, my synced Okta groups looked empty because Okta does not assign group memberships to **Staged** users—and my test user `teller3` lived outside my filtered `OU=Bank_Staff` scope. I activated a synced employee profile (`employee944`) inside Okta, added them to `SG-Teller-Team` on my on-premises Domain Controller, and ran an **Incremental Import** to sync the group membership cleanly.
+* **Step 2: Building the Zero Trust App Sign-In Policy:** I navigated to **Security -> Authentication Policies -> App sign-in** and created a custom perimeter policy to isolate teller authentication rules from general staff.
+* **Step 3: Enforcing Phishing-Resistant MFA Rules:** I configured a Priority 1 rule (`Strict Teller MFA Enforcement`) targeting `SG-Teller-Team` and set the access requirement to **Password + Another factor (Okta Verify FastPass)** with user interaction required.
+
+![Enabling Priority 1 Strict Teller MFA Enforcement Rule in Okta App Sign-In Policy](friday_2_teller_mfa_policy.png)
+
+---
