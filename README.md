@@ -98,3 +98,27 @@
 ![Enabling Priority 1 Strict Teller MFA Enforcement Rule in Okta App Sign-In Policy](friday_2_teller_mfa_policy.png)
 
 ---
+##  WEEKEND 2 MILESTONE: HYBRID ZERO TRUST & CONDITIONAL ACCESS MFA
+**Current Milestone Date:** Saturday, November 14, 2026  
+**Active Project Objective:** Project #2 — Locking down synced hybrid users with role-based Zero Trust authentication policies, Network Zone geofencing, and phishing-resistant Multi-Factor Authentication (MFA).
+
+---
+
+##  Phase 2 Architecture: Network Zone Geofencing & Application Policy Binding
+
+###  1. Why I Combined Network Zones with MFA
+* **The Security Problem:** MFA alone proves *who* is logging in, but it doesn't prove *where* they are standing. In a cloud environment, if a hacker steals a teller's password and tries to spam their phone with MFA push requests from outside the bank, a password + MFA rule alone still lets them trigger prompts.
+* **The Zero Trust Solution:** I built a cloud **Network Zone** (`CFG Bank Branch Perimeter`) to define our trusted branch IP range (`203.0.113.0/24`) and layered it into my App Sign-In Policy. By evaluating location context *before* MFA, Okta immediately blocks any teller login coming from outside the branch perimeter while enforcing **Password + Okta Verify FastPass** for legitimate in-branch sessions.
+
+### 🛠️ 2. The Step-by-Step Security Fix
+* **Step 1: Defining the Trusted Branch IP Zone:** I navigated to **Security -> Networks** in Okta and created an IP Zone (`CFG Bank Branch Perimeter`) scoped to `203.0.113.0/24` to represent our physical branch network boundary.
+* **Step 2: Layering Top-to-Bottom Conditional Access Rules:** Inside my `Zero Trust - Bank Teller Perimeter` policy, I set **Priority 1 (`Block Off-Premises Teller Access`)** to **Denied** whenever a member of `SG-Teller-Team` connects from outside `CFG Bank Branch Perimeter`, and placed **Priority 2 (`Strict Teller MFA Enforcement`)** underneath to require **Password + Okta Verify FastPass** inside the branch zone.
+* **Step 3: Binding the Policy to an Application:** Under the **Apps** tab of the policy, I assigned the **Okta Dashboard** application so these conditional access guardrails actively evaluate live user sign-ins.
+
+![Creating the CFG Bank Branch Perimeter IP Zone in Okta Networks](saturday_2_network_zone.png)
+
+![Configuring Priority 1 Geofence Block and Priority 2 In-Branch MFA Rules](saturday_2_geofence_rules.png)
+
+![Binding Okta Dashboard Application to the Zero Trust Bank Teller Policy](saturday_2_app_policy_binding.png)
+
+---
